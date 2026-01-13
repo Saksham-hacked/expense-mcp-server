@@ -140,4 +140,12 @@ class DatabaseConnection:
 
 
 # Global database instance (initialized once)
-db = DatabaseConnection()
+# db = DatabaseConnection()
+_db: Optional[DatabaseConnection] = None
+
+def get_db() -> DatabaseConnection:
+    global _db
+    if _db is None:
+        _db = DatabaseConnection()
+    return _db
+

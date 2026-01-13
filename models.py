@@ -7,7 +7,7 @@ All queries enforce user_id isolation for multi-user safety.
 from typing import List, Dict, Any, Optional
 from datetime import datetime, date
 from decimal import Decimal
-from db import db
+from db import get_db as db
 
 
 class ExpenseModel:
