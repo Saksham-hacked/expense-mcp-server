@@ -44,7 +44,7 @@ class DatabaseConnection:
                 minconn=2,
                 maxconn=10,
                 dsn=db_url,
-                sslmode='require'
+                # sslmode='require'
             )
         except psycopg2.Error as e:
             raise ConnectionError(f"Failed to initialize database pool: {e}")
