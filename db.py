@@ -6,6 +6,7 @@ Multi-user isolation is enforced at the query level.
 """
 
 import os
+import traceback
 import psycopg2
 from psycopg2.pool import SimpleConnectionPool
 from psycopg2.extras import RealDictCursor
@@ -26,7 +27,7 @@ class DatabaseConnection:
         self.pool: Optional[SimpleConnectionPool] = None
         self._initialize_pool()
     
-    def _initialize_pool(self):
+    # def _initialize_pool(self):
         """Initialize connection pool from environment variables."""
 
         db_url = os.getenv("DATABASE_URL")
@@ -48,7 +49,23 @@ class DatabaseConnection:
             )
         except psycopg2.Error as e:
             raise ConnectionError(f"Failed to initialize database pool: {e}")
-    
+    def _initialize_pool(self):
+     db_url = os.getenv("DATABASE_URL")
+
+     if not db_url:
+        raise ValueError("DATABASE_URL environment variable must be set")
+
+     try:
+        self.pool = SimpleConnectionPool(
+            minconn=1,
+            maxconn=3,
+            dsn=db_url,
+            connect_timeout=5
+        )
+     except Exception as e:
+        print("🔥 DB INIT FAILED 🔥")
+        traceback.print_exc()
+        raise
     @contextmanager
     def get_cursor(self):
         """
