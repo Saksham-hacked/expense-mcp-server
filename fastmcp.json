@@ -1,0 +1,5 @@
+{
+  "name": "Expense Management",
+  "description": "Expense management MCP server",
+  "entry": "main.py"
+}
