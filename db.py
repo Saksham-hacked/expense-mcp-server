@@ -30,7 +30,7 @@ class DatabaseConnection:
         """Initialize connection pool from environment variables."""
 
         db_url = os.getenv("DATABASE_URL")
-        print("Database URL:", db_url)
+        # print("Database URL:", db_url)
         
         if not db_url:
             raise ValueError(
@@ -43,7 +43,8 @@ class DatabaseConnection:
             self.pool = SimpleConnectionPool(
                 minconn=2,
                 maxconn=10,
-                dsn=db_url
+                dsn=db_url,
+                sslmode='require'
             )
         except psycopg2.Error as e:
             raise ConnectionError(f"Failed to initialize database pool: {e}")
