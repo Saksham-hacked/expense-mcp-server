@@ -7,7 +7,7 @@ All queries enforce user_id isolation for multi-user safety.
 from typing import List, Dict, Any, Optional
 from datetime import datetime, date
 from decimal import Decimal
-from db import get_db as db
+from db import get_db 
 
 
 class ExpenseModel:
@@ -31,7 +31,9 @@ class ExpenseModel:
         Args:
             user_id: User identifier (mandatory)
             expense_date: Date of expense
-            amount: Expense amount (must be positive)
+            amount: Expense amount in INR (Indian Rupees). 
+                    Always pass the numeric value assuming INR.
+                    Do NOT convert currencies.
             category: Expense category
             merchant: Optional merchant name
             note: Optional note
@@ -42,6 +44,7 @@ class ExpenseModel:
         Raises:
             ValueError: If amount <= 0 or user_id is empty
         """
+        db = get_db()
         if not user_id or not user_id.strip():
             raise ValueError("user_id is required and cannot be empty")
         
@@ -81,6 +84,7 @@ class ExpenseModel:
         Returns:
             List of expense records ordered by date ASC
         """
+        db = get_db()
         if not user_id or not user_id.strip():
             raise ValueError("user_id is required and cannot be empty")
         
@@ -124,6 +128,7 @@ class ExpenseModel:
             GROUP BY category
             ORDER BY total DESC
         """
+        db = get_db()
         
         return db.execute_query(query, (user_id, start_date, end_date))
     
@@ -160,6 +165,7 @@ class ExpenseModel:
             WHERE user_id = %s
               AND date BETWEEN %s AND %s
         """
+        db = get_db()
         total_result = db.execute_query(total_query, (user_id, start_date, end_date))
         total_spending = float(total_result[0]['total']) if total_result else 0.0
         
