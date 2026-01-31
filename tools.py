@@ -250,12 +250,12 @@ def monthly_report_tool(
         top_category = category_breakdown[0] if category_breakdown else None
         if top_category:
             summary_text = (
-                f"In {month}, you spent ${total:.2f} across {count} expenses. "
+                f"In {month}, you spent {total:.2f}Rs across {count} expenses. "
                 f"Your highest spending category was {top_category['category']} "
-                f"at ${top_category['total']:.2f}."
+                f"at {top_category['total']:.2f}Rs."
             )
         else:
-            summary_text = f"In {month}, you spent ${total:.2f} across {count} expenses."
+            summary_text = f"In {month}, you spent {total:.2f}Rs across {count} expenses."
     
     return {
         "user_id": user_id,
