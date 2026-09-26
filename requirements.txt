@@ -1,4 +1,4 @@
-fastmcp>=0.5.0
+fastmcp
 python-dotenv>=1.0.0
 psycopg[binary]>=3.1
 psycopg-pool
