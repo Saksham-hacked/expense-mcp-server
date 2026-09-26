@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: expense-mcp-server
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: DATABASE_URL
+        sync: false
