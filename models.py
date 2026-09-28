@@ -158,10 +158,7 @@ class ExpenseModel:
         start_date = date(year, month, 1)
         end_date = date(year, month, last_day)
         
-        # month rnage gives output like this(first_weekday, number_of_days)
-        
         # Get total spending
-        # //coalesce for null values, if no expenses, total will be 0
         total_query = """
             SELECT COALESCE(SUM(amount), 0) as total
             FROM expenses

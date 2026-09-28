@@ -13,11 +13,10 @@ This server exposes 4 MCP tools:
 Architecture:
 - Each user's data is isolated via user_id
 - No authentication (user_id injected by backend orchestrator)
-- Cloud-ready (Render / FastMCP Cloud deployment)
+- Cloud-ready (FastMCP Cloud deployment)
 - PostgreSQL for persistent storage
 """
 
-import os
 from fastmcp import FastMCP
 from tools import (
     add_expense_tool,
@@ -41,7 +40,7 @@ def add_expense(
 ) -> dict:
     """
     Add a new expense for a user.
-
+    
     Args:
         user_id: User identifier (required)
         date: Expense date in YYYY-MM-DD format (required)
@@ -49,10 +48,10 @@ def add_expense(
         category: Expense category (required)
         merchant: Merchant name (optional)
         note: Additional note (optional)
-
+        
     Returns:
         Created expense record with generated id
-
+        
     Example:
         {
             "user_id": "user_123",
@@ -74,15 +73,15 @@ def list_expenses(
 ) -> list:
     """
     List a user's expenses within a date range.
-
+    
     Args:
         user_id: User identifier (required)
         start_date: Range start in YYYY-MM-DD format (required)
         end_date: Range end in YYYY-MM-DD format (required)
-
+        
     Returns:
         Array of expense objects ordered by date ASC
-
+        
     Example:
         {
             "user_id": "user_123",
@@ -101,15 +100,15 @@ def summarize_expenses(
 ) -> list:
     """
     Summarize expenses by category within a date range.
-
+    
     Args:
         user_id: User identifier (required)
         start_date: Range start in YYYY-MM-DD format (required)
         end_date: Range end in YYYY-MM-DD format (required)
-
+        
     Returns:
         Array of {category, total} objects ordered by total DESC
-
+        
     Example:
         {
             "user_id": "user_123",
@@ -127,14 +126,14 @@ def monthly_report(
 ) -> dict:
     """
     Generate a monthly expense report.
-
+    
     Args:
         user_id: User identifier (required)
         month: Month in YYYY-MM format (required)
-
+        
     Returns:
         Monthly report with total_spending, category_breakdown, and summary
-
+        
     Example:
         {
             "user_id": "user_123",
@@ -144,6 +143,10 @@ def monthly_report(
     return monthly_report_tool(user_id, month)
 
 
+# Entry point for FastMCP Cloud deployment
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    # FastMCP Cloud will handle transport automatically
+    # No need to specify stdio/sse - defaults to HTTP
+   mcp.run()
+   
+
