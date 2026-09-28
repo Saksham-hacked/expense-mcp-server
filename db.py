@@ -205,8 +205,7 @@ class DatabaseConnection:
             conninfo=db_url,
             min_size=1,
             max_size=3,
-            open =False,
-            timeout=30,
+            timeout=5,
             kwargs={
                 "row_factory": dict_row
             }
@@ -262,5 +261,4 @@ def get_db() -> DatabaseConnection:
     global _db
     if _db is None:
         _db = DatabaseConnection()
-        _db.pool.open(wait=True)   
     return _db
